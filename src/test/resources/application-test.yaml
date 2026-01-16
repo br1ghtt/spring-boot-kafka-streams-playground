@@ -1,0 +1,18 @@
+spring:
+  docker:
+    compose:
+      file: infra/docker-compose.yaml
+      enabled: true
+  kafka:
+    bootstrap-servers: {spring.embedded.kafka.brokers}
+    properties:
+      schema.registry.url: mock://schema-registry
+  cloud:
+    stream:
+      kafka:
+        streams:
+          binder:
+            configuration:
+              application.server: localhost:${server.port}
+              group.instance.id: test
+
