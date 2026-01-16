@@ -1,0 +1,34 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: spring-boot-kafka-streams-playground
+  docker:
+    compose:
+      enabled: false
+  threads:
+    virtual:
+      enabled: true
+  cloud:
+    function:
+      definition: processingFunction
+    stream:
+      bindings:
+        processingFunction-in-0.destination: "input-topic"
+        processingFunction-out-0.destination: "output-topic"
+      kafka:
+        streams:
+          binder:
+            configuration:
+              processing.guarantee: exactly_once_v2
+              application.server: ${POD_IP}:${server.port}
+              group.instance.id: ${INSTANCE_ID}
+              auto.register.schemas: false
+              num.stream.threads: 2
+            deserialization-exception-handler: sendtodlq
+            auto-create-topics: false
+          bindings:
+            processingFunction-in-0.consumer.startOffset: earliest
+            processingFunction-in-0.consumer.enableDlq: true
+            processingFunction-in-0.consumer.dlqName: "input-dlq"
+

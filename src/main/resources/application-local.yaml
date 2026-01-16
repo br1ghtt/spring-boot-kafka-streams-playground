@@ -1,0 +1,21 @@
+spring:
+  docker:
+    compose:
+      file: infra/docker-compose.yaml
+      enabled: true
+  kafka:
+    bootstrap-servers: localhost:9092
+    properties:
+      schema.registry.url: http://localhost:9011/apis/ccompat/v7
+      sasl.mechanism: SCRAM-SHA-512
+      sasl.jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="client" password="password";
+      security.protocol: SASL_PLAINTEXT
+  cloud:
+    stream:
+      kafka:
+        streams:
+          binder:
+            configuration:
+              application.server: localhost:${server.port}
+              group.instance.id: local
+
