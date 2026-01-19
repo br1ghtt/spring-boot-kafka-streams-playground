@@ -1,7 +1,7 @@
 spring:
   docker:
     compose:
-      file: infra/docker-compose.yaml
+      file: ./infra/docker-compose.yaml
       enabled: true
   kafka:
     bootstrap-servers: localhost:9092
