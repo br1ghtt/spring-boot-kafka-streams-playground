@@ -1,3 +1,12 @@
 spring:
   application:
     name: ai-test-data-generator
+  main:
+    web-application-type: none
+  docker:
+    compose:
+      enabled: true
+      file: ai-test-data-generator/infra/docker-compose.yaml
+logging:
+  level:
+    org.springframework: DEBUG

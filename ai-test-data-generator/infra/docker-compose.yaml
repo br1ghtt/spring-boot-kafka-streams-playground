@@ -1,0 +1,15 @@
+services:
+  ollama:
+    build: ./ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    healthcheck:
+      test: ["CMD-SHELL", "ollama list || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  ollama_data:
